@@ -120,11 +120,6 @@ export default function Footer() {
                   Customer Account
                 </Link>
               </li>
-              <li>
-                <Link to="/admin/login" className="text-slate-500 hover:text-slate-900 transition italic flex items-center gap-1">
-                  Admin Login <FiArrowUpRight className="w-3.5 h-3.5" />
-                </Link>
-              </li>
             </ul>
           </div>
 

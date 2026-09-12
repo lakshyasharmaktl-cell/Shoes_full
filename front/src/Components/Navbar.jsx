@@ -95,23 +95,14 @@ export default function Navbar() {
 
           {/* Right Action Icons */}
           <div className="flex items-center gap-3 md:gap-4">
-            {/* Admin Portal Quick Link */}
-            {isAdmin ? (
+            {/* Admin Portal Link — ONLY visible when authenticated with admin role */}
+            {isAdmin && (
               <Link
                 to="/admin/dashboard"
                 className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-slate-900 text-white rounded-full text-xs font-semibold hover:bg-slate-800 transition shadow-sm"
               >
                 <FiShield className="w-3.5 h-3.5 text-amber-400" />
                 <span className="italic">Admin Portal</span>
-              </Link>
-            ) : (
-              <Link
-                to="/admin/login"
-                title="Admin Login"
-                className="hidden sm:flex items-center gap-1 text-xs text-slate-500 hover:text-slate-900 px-2 py-1 rounded-md border border-slate-200 hover:border-slate-400 transition italic"
-              >
-                <FiShield className="w-3 h-3 text-slate-500" />
-                <span>Admin</span>
               </Link>
             )}
 
@@ -231,21 +222,13 @@ export default function Navbar() {
             </div>
 
             <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
-              {isAdmin ? (
+              {isAdmin && (
                 <Link
                   to="/admin/dashboard"
                   onClick={() => setMobileMenuOpen(false)}
                   className="text-amber-700 font-bold italic flex items-center gap-1"
                 >
                   <FiShield className="w-4 h-4" /> Admin Portal
-                </Link>
-              ) : (
-                <Link
-                  to="/admin/login"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-slate-500 italic"
-                >
-                  Admin Login
                 </Link>
               )}
 
