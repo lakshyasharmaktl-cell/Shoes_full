@@ -1,23 +1,51 @@
 const Product = require("../models/Product");
 const { createProductSchema, updateProductSchema } = require("../validation/productValidation");
 
+// Helper to normalize formData payload before validation
+const normalizeProductBody = (body) => {
+  const data = { ...body };
+  if (typeof data.sizes === "string") {
+    try {
+      data.sizes = JSON.parse(data.sizes);
+    } catch (e) {
+      // let Joi catch validation error
+    }
+  }
+  if (typeof data.colors === "string") {
+    try {
+      data.colors = JSON.parse(data.colors);
+    } catch (e) {
+      // If it's a comma-separated string
+      data.colors = data.colors.split(",").map((c) => c.trim()).filter(Boolean);
+    }
+  }
+  if (data.price !== undefined && data.price !== null) {
+    data.price = Number(data.price);
+  }
+  if (data.discountPrice !== undefined && data.discountPrice !== null) {
+    data.discountPrice = Number(data.discountPrice);
+  }
+  return data;
+};
+
 // @desc    Create product (ADMIN ONLY)
 // @route   POST /api/products
 // @access  Private/Admin
 const createProduct = async (req, res, next) => {
   try {
-    const { error } = createProductSchema.validate(req.body);
+    const normalizedData = normalizeProductBody(req.body);
+    const { error, value } = createProductSchema.validate(normalizedData);
     if (error) return res.status(400).json({ message: error.details[0].message });
 
     const images = req.files ? req.files.map((file) => `/image/${file.filename}`) : [];
 
-    const totalStock = (req.body.sizes || []).reduce(
+    const totalStock = (value.sizes || []).reduce(
       (sum, s) => sum + Number(s.stock || 0),
       0
     );
 
     const product = await Product.create({
-      ...req.body,
+      ...value,
       images,
       totalStock,
       createdBy: req.admin._id,
@@ -34,10 +62,13 @@ const createProduct = async (req, res, next) => {
 // @access  Public
 const getProducts = async (req, res, next) => {
   try {
-    const { category, minPrice, maxPrice, search } = req.query;
-    const filter = { isActive: true };
+    const { category, minPrice, maxPrice, search, all } = req.query;
+    const filter = {};
+    if (all !== "true") {
+      filter.isActive = true;
+    }
 
-    if (category) filter.category = category;
+    if (category && category !== "All") filter.category = category;
     if (minPrice || maxPrice) {
       filter.price = {};
       if (minPrice) filter.price.$gte = Number(minPrice);
@@ -70,24 +101,25 @@ const getProductById = async (req, res, next) => {
 // @access  Private/Admin
 const updateProduct = async (req, res, next) => {
   try {
-    const { error } = updateProductSchema.validate(req.body);
+    const normalizedData = normalizeProductBody(req.body);
+    const { error, value } = updateProductSchema.validate(normalizedData);
     if (error) return res.status(400).json({ message: error.details[0].message });
 
     const product = await Product.findById(req.params.id);
     if (!product) return res.status(404).json({ message: "Product not found" });
 
     if (req.files && req.files.length > 0) {
-      req.body.images = req.files.map((file) => `/image/${file.filename}`);
+      value.images = req.files.map((file) => `/image/${file.filename}`);
     }
 
-    if (req.body.sizes) {
-      req.body.totalStock = req.body.sizes.reduce(
+    if (value.sizes) {
+      value.totalStock = value.sizes.reduce(
         (sum, s) => sum + Number(s.stock || 0),
         0
       );
     }
 
-    Object.assign(product, req.body);
+    Object.assign(product, value);
     await product.save();
 
     res.json(product);
