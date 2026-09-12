@@ -170,10 +170,10 @@ export default function AdminProductModal({ isOpen, onClose, productToEdit, onSa
 
       if (productToEdit) {
         await api.updateProduct(productToEdit._id, data);
-        showSuccess(`Product "${formData.name}" updated successfully!`);
+        showSuccess(`Product "₹{formData.name}" updated successfully!`);
       } else {
         await api.createProduct(data);
-        showSuccess(`New Product "${formData.name}" created successfully!`);
+        showSuccess(`New Product "₹{formData.name}" created successfully!`);
       }
 
       onSaved();
@@ -260,7 +260,7 @@ export default function AdminProductModal({ isOpen, onClose, productToEdit, onSa
 
             <div>
               <label className="block text-xs font-bold text-slate-800 uppercase tracking-wider mb-1 italic">
-                Regular Price ($) *
+                Regular Price (₹) *
               </label>
               <input
                 type="number"
@@ -276,7 +276,7 @@ export default function AdminProductModal({ isOpen, onClose, productToEdit, onSa
 
             <div>
               <label className="block text-xs font-bold text-slate-800 uppercase tracking-wider mb-1 italic">
-                Discount Price ($) (Optional)
+                Discount Price (₹) (Optional)
               </label>
               <input
                 type="number"

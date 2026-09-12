@@ -15,7 +15,7 @@ export default function Footer() {
               </div>
               <div>
                 <h4 className="font-bold text-sm text-slate-900 italic">Free Global Express</h4>
-                <p className="text-xs text-slate-500 italic">On all footwear orders over $100</p>
+                <p className="text-xs text-slate-500 italic">On all footwear orders over ₹100</p>
               </div>
             </div>
 

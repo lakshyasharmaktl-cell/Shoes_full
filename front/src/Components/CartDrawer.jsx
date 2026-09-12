@@ -68,7 +68,7 @@ export default function CartDrawer() {
             ) : (
               cart.map((item) => (
                 <div
-                  key={`${item.productId}-${item.size}`}
+                  key={`₹{item.productId}-₹{item.size}`}
                   className="flex gap-4 p-3.5 rounded-2xl bg-white border border-slate-100 shadow-xs hover:border-slate-200 transition"
                 >
                   {/* Thumbnail */}
@@ -89,7 +89,7 @@ export default function CartDrawer() {
                     <div>
                       <div className="flex items-start justify-between">
                         <Link
-                          to={`/product/${item.productId}`}
+                          to={`/product/₹{item.productId}`}
                           onClick={() => setIsCartOpen(false)}
                           className="font-bold text-xs text-slate-900 hover:underline line-clamp-1 italic"
                         >
@@ -126,11 +126,11 @@ export default function CartDrawer() {
 
                       <div className="text-right">
                         <span className="font-bold text-sm text-slate-900 italic">
-                          ${(item.price * item.quantity).toFixed(2)}
+                          ₹{(item.price * item.quantity).toFixed(2)}
                         </span>
                         {item.discountPrice > 0 && (
                           <p className="text-[10px] text-slate-400 line-through italic">
-                            ${(item.originalPrice * item.quantity).toFixed(2)}
+                            ₹{(item.originalPrice * item.quantity).toFixed(2)}
                           </p>
                         )}
                       </div>
@@ -147,18 +147,18 @@ export default function CartDrawer() {
               <div className="space-y-1.5 text-xs text-slate-600">
                 <div className="flex justify-between">
                   <span className="italic">Subtotal</span>
-                  <span className="font-semibold text-slate-900 italic">${subtotal.toFixed(2)}</span>
+                  <span className="font-semibold text-slate-900 italic">₹{subtotal.toFixed(2)}</span>
                 </div>
                 {totalSavings > 0 && (
                   <div className="flex justify-between text-emerald-600">
                     <span className="italic">Exclusive Promo Savings</span>
-                    <span className="font-semibold italic">-${totalSavings.toFixed(2)}</span>
+                    <span className="font-semibold italic">-₹{totalSavings.toFixed(2)}</span>
                   </div>
                 )}
                 <div className="flex justify-between">
                   <span className="italic">Estimated Shipping</span>
                   <span className="font-semibold text-emerald-600 italic">
-                    {subtotal >= 100 ? "FREE" : "$15.00"}
+                    {subtotal >= 100 ? "FREE" : "₹15.00"}
                   </span>
                 </div>
               </div>
@@ -166,7 +166,7 @@ export default function CartDrawer() {
               <div className="border-t border-slate-200 pt-3 flex justify-between items-baseline">
                 <span className="font-bold text-sm text-slate-900 italic">Estimated Total</span>
                 <span className="font-black text-lg text-slate-900 italic font-serif-italic">
-                  ${(subtotal + (subtotal >= 100 ? 0 : 15)).toFixed(2)}
+                  ₹{(subtotal + (subtotal >= 100 ? 0 : 15)).toFixed(2)}
                 </span>
               </div>
 
