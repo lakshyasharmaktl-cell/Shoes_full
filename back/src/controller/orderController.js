@@ -2,15 +2,11 @@ const Order = require("../models/Order");
 const Product = require("../models/Product");
 const { createOrderSchema, updateOrderStatusSchema } = require("../validation/oderValidation");
 
-// @desc    Place a new order (customer facing — no auth needed)
-// @route   POST /api/orders
-// @access  Public
 const createOrder = async (req, res, next) => {
   try {
     const { error } = createOrderSchema.validate(req.body);
     if (error) return res.status(400).json({ message: error.details[0].message });
 
-    // Basic stock check
     for (const item of req.body.items) {
       const product = await Product.findById(item.product);
       if (!product) {
@@ -40,9 +36,6 @@ const createOrder = async (req, res, next) => {
   }
 };
 
-// @desc    Get all orders (ADMIN ONLY)
-// @route   GET /api/orders
-// @access  Private/Admin
 const getOrders = async (req, res, next) => {
   try {
     const orders = await Order.find().sort({ createdAt: -1 });
@@ -52,9 +45,7 @@ const getOrders = async (req, res, next) => {
   }
 };
 
-// @desc    Get single order by id (ADMIN ONLY)
-// @route   GET /api/orders/:id
-// @access  Private/Admin
+
 const getOrderById = async (req, res, next) => {
   try {
     const order = await Order.findById(req.params.id);
@@ -65,9 +56,6 @@ const getOrderById = async (req, res, next) => {
   }
 };
 
-// @desc    Update order status (ADMIN ONLY)
-// @route   PUT /api/orders/:id/status
-// @access  Private/Admin
 const updateOrderStatus = async (req, res, next) => {
   try {
     const { error } = updateOrderStatusSchema.validate(req.body);
