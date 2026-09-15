@@ -101,7 +101,7 @@ export default function CheckoutPage() {
       const placedOrder = await api.createOrder(orderPayload);
       clearCart();
       showSuccess("Order placed successfully! Thank you for choosing SHOE COLLECTION.");
-      navigate(`/order-success/₹{placedOrder._id}`, { state: { order: placedOrder } });
+      navigate(`/order-success/${placedOrder._id}`, { state: { order: placedOrder } });
     } catch (err) {
       showError(err.message || "Failed to place order. Please try again.");
     } finally {
@@ -263,7 +263,7 @@ export default function CheckoutPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <label
-                  className={`p-4 rounded-2xl border-2 cursor-pointer transition flex items-start gap-3 ₹{
+                  className={`p-4 rounded-2xl border-2 cursor-pointer transition flex items-start gap-3 ${
                     formData.paymentMethod === "COD"
                       ? "border-slate-900 bg-slate-50/80 shadow-xs"
                       : "border-slate-200 hover:border-slate-300"
@@ -288,7 +288,7 @@ export default function CheckoutPage() {
                 </label>
 
                 <label
-                  className={`p-4 rounded-2xl border-2 cursor-pointer transition flex items-start gap-3 ₹{
+                  className={`p-4 rounded-2xl border-2 cursor-pointer transition flex items-start gap-3 ${
                     formData.paymentMethod === "ONLINE"
                       ? "border-slate-900 bg-slate-50/80 shadow-xs"
                       : "border-slate-200 hover:border-slate-300"
@@ -325,7 +325,7 @@ export default function CheckoutPage() {
               ) : (
                 <FiLock className="w-4 h-4" />
               )}
-              <span>Place Order • ₹{finalTotal.toFixed(2)}</span>
+              <span>Place Order • ${finalTotal.toFixed(2)}</span>
             </button>
           </form>
         </div>
@@ -341,7 +341,7 @@ export default function CheckoutPage() {
             <div className="space-y-3 max-h-72 overflow-y-auto pr-1">
               {cart.map((item) => (
                 <div
-                  key={`₹{item.productId}-₹{item.size}`}
+                  key={`${item.productId}-${item.size}`}
                   className="flex items-center gap-3 p-2 bg-slate-50 rounded-xl"
                 >
                   <div className="w-12 h-12 rounded-lg bg-white overflow-hidden p-1 flex-shrink-0 border border-slate-200">
@@ -360,7 +360,7 @@ export default function CheckoutPage() {
                     </p>
                   </div>
                   <span className="font-bold text-xs text-slate-900 italic">
-                    ₹{(item.price * item.quantity).toFixed(2)}
+                    ${(item.price * item.quantity).toFixed(2)}
                   </span>
                 </div>
               ))}
@@ -370,18 +370,18 @@ export default function CheckoutPage() {
             <div className="space-y-2 border-t border-slate-100 pt-4 text-xs text-slate-600">
               <div className="flex justify-between">
                 <span className="italic">Items Subtotal</span>
-                <span className="font-semibold text-slate-900 italic">₹{subtotal.toFixed(2)}</span>
+                <span className="font-semibold text-slate-900 italic">${subtotal.toFixed(2)}</span>
               </div>
               {totalSavings > 0 && (
                 <div className="flex justify-between text-emerald-600">
                   <span className="italic">Total Promo Savings</span>
-                  <span className="font-semibold italic">-₹{totalSavings.toFixed(2)}</span>
+                  <span className="font-semibold italic">-${totalSavings.toFixed(2)}</span>
                 </div>
               )}
               <div className="flex justify-between">
                 <span className="italic">Express Delivery</span>
                 <span className="font-semibold text-emerald-600 italic">
-                  {shippingCost === 0 ? "FREE" : `₹₹{shippingCost.toFixed(2)}`}
+                  {shippingCost === 0 ? "FREE" : `$${shippingCost.toFixed(2)}`}
                 </span>
               </div>
             </div>
@@ -389,7 +389,7 @@ export default function CheckoutPage() {
             <div className="border-t border-slate-200 pt-4 flex justify-between items-baseline">
               <span className="font-bold text-sm text-slate-900 italic">Final Amount</span>
               <span className="font-black text-2xl text-slate-950 italic font-serif-italic">
-                ₹{finalTotal.toFixed(2)}
+                ${finalTotal.toFixed(2)}
               </span>
             </div>
 

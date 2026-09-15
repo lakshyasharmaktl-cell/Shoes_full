@@ -31,7 +31,7 @@ export default function ProductCard({ product }) {
 
       {/* Image Container */}
       <Link
-        to={`/product/₹{product._id}`}
+        to={`/product/${product._id}`}
         className="block relative w-full aspect-square bg-slate-50/70 rounded-2xl overflow-hidden mb-4 p-4 flex items-center justify-center group-hover:bg-slate-100/50 transition duration-300"
       >
         <img
@@ -53,7 +53,7 @@ export default function ProductCard({ product }) {
               {product.brand || "Exclusive"}
             </span>
             <span
-              className={`flex items-center gap-1 text-[11px] font-medium italic ₹{
+              className={`flex items-center gap-1 text-[11px] font-medium italic ${
                 hasStock ? "text-emerald-600" : "text-rose-500"
               }`}
             >
@@ -69,7 +69,7 @@ export default function ProductCard({ product }) {
             </span>
           </div>
 
-          <Link to={`/product/₹{product._id}`} className="block">
+          <Link to={`/product/${product._id}`} className="block">
             <h3 className="font-serif-italic font-bold text-base text-slate-900 group-hover:text-slate-700 transition line-clamp-1 italic leading-snug">
               {product.name}
             </h3>
@@ -88,7 +88,7 @@ export default function ProductCard({ product }) {
             {(product.sizes || []).slice(0, 5).map((s, idx) => (
               <span
                 key={idx}
-                className={`text-[10px] px-2 py-0.5 rounded-md font-medium italic ₹{
+                className={`text-[10px] px-2 py-0.5 rounded-md font-medium italic ${
                   s.stock > 0
                     ? "bg-slate-100 text-slate-700 border border-slate-200"
                     : "bg-slate-50 text-slate-300 line-through border border-dashed border-slate-200"
@@ -109,18 +109,18 @@ export default function ProductCard({ product }) {
             <div className="flex flex-col">
               <div className="flex items-baseline gap-2">
                 <span className="text-lg font-black font-serif-italic text-slate-950 italic">
-                  ₹{Number(currentPrice).toFixed(2)}
+                  ${Number(currentPrice).toFixed(2)}
                 </span>
                 {isDiscounted && (
                   <span className="text-xs text-slate-400 line-through italic">
-                    ₹{Number(product.price).toFixed(2)}
+                    ${Number(product.price).toFixed(2)}
                   </span>
                 )}
               </div>
             </div>
 
             <Link
-              to={`/product/₹{product._id}`}
+              to={`/product/${product._id}`}
               className="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-slate-800 transition flex items-center gap-1.5 italic tracking-wider group/btn"
             >
               <span>View</span>

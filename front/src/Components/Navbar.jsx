@@ -16,7 +16,7 @@ export default function Navbar() {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/shop?search=₹{encodeURIComponent(searchQuery.trim())}`);
+      navigate(`/shop?search=${encodeURIComponent(searchQuery.trim())}`);
       setMobileMenuOpen(false);
     }
   };
@@ -41,7 +41,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-100 transition-all">
       {/* Top Banner */}
       <div className="bg-slate-900 text-white text-xs py-1.5 px-4 text-center tracking-wider font-light">
-        <span className="italic font-medium">✨ FREE EXPRESS DELIVERY ON ALL ORDERS OVER ₹100 • 30-DAY HASSLE-FREE RETURNS ✨</span>
+        <span className="italic font-medium">✨ FREE EXPRESS DELIVERY ON ALL ORDERS OVER $100 • 30-DAY HASSLE-FREE RETURNS ✨</span>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -67,7 +67,7 @@ export default function Navbar() {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`text-sm font-medium transition-colors duration-200 tracking-wide ₹{
+                className={`text-sm font-medium transition-colors duration-200 tracking-wide ${
                   isActive(link.path)
                     ? "text-slate-950 font-bold border-b-2 border-slate-950 pb-1 italic"
                     : "text-slate-600 hover:text-slate-950 italic"
@@ -210,7 +210,7 @@ export default function Navbar() {
                   key={link.name}
                   to={link.path}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`p-2.5 rounded-lg text-xs font-semibold text-center italic ₹{
+                  className={`p-2.5 rounded-lg text-xs font-semibold text-center italic ${
                     isActive(link.path)
                       ? "bg-slate-900 text-white"
                       : "bg-slate-50 text-slate-700 hover:bg-slate-100"

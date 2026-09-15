@@ -19,7 +19,7 @@ import {
 import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
 import { api } from "../api/apiClient";
-import AdminProductModal from "../components/AdminProductModal";
+import AdminProductModal from "../Components/AdminProductModal";
 import ConfirmModal from "../components/ConfirmModal";
 
 export default function AdminDashboardPage() {
@@ -101,7 +101,7 @@ export default function AdminDashboardPage() {
     setActionLoading(true);
     try {
       await api.deleteProduct(productToDelete._id);
-      showSuccess(`Product "₹{productToDelete.name}" deleted successfully`);
+      showSuccess(`Product "${productToDelete.name}" deleted successfully`);
       setDeleteModalOpen(false);
       setProductToDelete(null);
       loadData();
@@ -116,7 +116,7 @@ export default function AdminDashboardPage() {
   const handleOrderStatusChange = async (orderId, newStatus) => {
     try {
       await api.updateOrderStatus(orderId, newStatus);
-      showSuccess(`Order status updated to "₹{newStatus}"`);
+      showSuccess(`Order status updated to "${newStatus}"`);
       // Update local state
       setOrders((prev) =>
         prev.map((o) => (o._id === orderId ? { ...o, orderStatus: newStatus } : o))
@@ -181,7 +181,7 @@ export default function AdminDashboardPage() {
             title="Refresh Data"
             className="p-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white transition border border-white/10"
           >
-            <FiRefreshCw className={`w-4 h-4 ₹{loading ? "animate-spin" : ""}`} />
+            <FiRefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
           </button>
 
           <button
@@ -242,7 +242,7 @@ export default function AdminDashboardPage() {
           <div>
             <p className="text-[11px] font-bold text-slate-400 uppercase italic">Total Sales</p>
             <p className="text-2xl font-black font-serif-italic italic text-emerald-600">
-              ₹{totalRevenue.toFixed(2)}
+              ${totalRevenue.toFixed(2)}
             </p>
           </div>
         </div>
@@ -252,7 +252,7 @@ export default function AdminDashboardPage() {
       <div className="flex border-b border-slate-200 gap-6 text-sm font-bold italic">
         <button
           onClick={() => setActiveTab("products")}
-          className={`pb-3 px-2 flex items-center gap-2 transition ₹{
+          className={`pb-3 px-2 flex items-center gap-2 transition ${
             activeTab === "products"
               ? "border-b-2 border-slate-900 text-slate-900"
               : "text-slate-400 hover:text-slate-700"
@@ -264,7 +264,7 @@ export default function AdminDashboardPage() {
 
         <button
           onClick={() => setActiveTab("orders")}
-          className={`pb-3 px-2 flex items-center gap-2 transition ₹{
+          className={`pb-3 px-2 flex items-center gap-2 transition ${
             activeTab === "orders"
               ? "border-b-2 border-slate-900 text-slate-900"
               : "text-slate-400 hover:text-slate-700"
@@ -370,11 +370,11 @@ export default function AdminDashboardPage() {
                         <td className="py-3 px-4 font-semibold italic">
                           <div className="flex items-baseline gap-1.5">
                             <span className="font-bold text-slate-900">
-                              ₹{Number(isDiscounted ? product.discountPrice : product.price).toFixed(2)}
+                              ${Number(isDiscounted ? product.discountPrice : product.price).toFixed(2)}
                             </span>
                             {isDiscounted && (
                               <span className="text-[10px] text-slate-400 line-through">
-                                ₹{Number(product.price).toFixed(2)}
+                                ${Number(product.price).toFixed(2)}
                               </span>
                             )}
                           </div>
@@ -386,7 +386,7 @@ export default function AdminDashboardPage() {
                             {(product.sizes || []).map((s, idx) => (
                               <span
                                 key={idx}
-                                className={`text-[9px] px-1.5 py-0.5 rounded font-medium italic ₹{
+                                className={`text-[9px] px-1.5 py-0.5 rounded font-medium italic ${
                                   s.stock > 0
                                     ? "bg-slate-100 text-slate-800"
                                     : "bg-rose-50 text-rose-500 line-through"
@@ -404,7 +404,7 @@ export default function AdminDashboardPage() {
                         {/* Status */}
                         <td className="py-3 px-4">
                           <span
-                            className={`px-2 py-1 rounded-full text-[10px] font-bold italic ₹{
+                            className={`px-2 py-1 rounded-full text-[10px] font-bold italic ${
                               product.isActive
                                 ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
                                 : "bg-slate-100 text-slate-500"
@@ -505,7 +505,7 @@ export default function AdminDashboardPage() {
                           {(order.items || []).map((item, idx) => (
                             <div key={idx} className="text-[11px] text-slate-700 italic">
                               • <span className="font-bold">{item.name}</span> (Size {item.size}) x{" "}
-                              {item.quantity} = ₹{(item.price * item.quantity).toFixed(2)}
+                              {item.quantity} = ${(item.price * item.quantity).toFixed(2)}
                             </div>
                           ))}
                         </div>
@@ -513,7 +513,7 @@ export default function AdminDashboardPage() {
 
                       <td className="py-3 px-4 align-top">
                         <p className="font-black text-sm text-slate-900 italic font-serif-italic">
-                          ₹{order.totalAmount?.toFixed(2)}
+                          ${order.totalAmount?.toFixed(2)}
                         </p>
                         <span className="inline-block px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-[10px] font-bold italic mt-1">
                           {order.paymentMethod || "COD"}
@@ -524,7 +524,7 @@ export default function AdminDashboardPage() {
                         <select
                           value={order.orderStatus}
                           onChange={(e) => handleOrderStatusChange(order._id, e.target.value)}
-                          className={`px-2.5 py-1.5 rounded-xl text-xs font-bold italic border focus:outline-none ₹{
+                          className={`px-2.5 py-1.5 rounded-xl text-xs font-bold italic border focus:outline-none ${
                             order.orderStatus === "Delivered"
                               ? "bg-emerald-50 text-emerald-700 border-emerald-300"
                               : order.orderStatus === "Shipped"
@@ -564,7 +564,7 @@ export default function AdminDashboardPage() {
       <ConfirmModal
         isOpen={deleteModalOpen}
         title="Permanently Delete Product?"
-        message={`Are you sure you want to delete "₹{productToDelete?.name}"? This will remove it from the online store and customer listings.`}
+        message={`Are you sure you want to delete "${productToDelete?.name}"? This will remove it from the online store and customer listings.`}
         confirmText="Delete Product"
         loading={actionLoading}
         onConfirm={handleDeleteProduct}
