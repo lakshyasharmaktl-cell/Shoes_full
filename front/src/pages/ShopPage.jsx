@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { FiFilter, FiSearch, FiX, FiSliders, FiRefreshCw, FiLayers } from "react-icons/fi";
 import { api } from "../api/apiClient";
-import ProductCard from "../components/ProductCard";
+import ProductCard from "../Components/ProductCard";
 
 export default function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams();

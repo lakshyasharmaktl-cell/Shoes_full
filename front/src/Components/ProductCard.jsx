@@ -109,7 +109,7 @@ export default function ProductCard({ product }) {
             <div className="flex flex-col">
               <div className="flex items-baseline gap-2">
                 <span className="text-lg font-black font-serif-italic text-slate-950 italic">
-                  ${Number(currentPrice).toFixed(2)}
+                  ₹{Number(currentPrice).toFixed(2)}
                 </span>
                 {isDiscounted && (
                   <span className="text-xs text-slate-400 line-through italic">

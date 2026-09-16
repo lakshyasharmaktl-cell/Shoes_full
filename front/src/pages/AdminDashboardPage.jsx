@@ -374,7 +374,7 @@ export default function AdminDashboardPage() {
                             </span>
                             {isDiscounted && (
                               <span className="text-[10px] text-slate-400 line-through">
-                                ${Number(product.price).toFixed(2)}
+                                ₹{Number(product.price).toFixed(2)}
                               </span>
                             )}
                           </div>
