@@ -4,9 +4,9 @@ import { ToastProvider } from "./context/ToastContext";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import CartDrawer from "./components/CartDrawer";
+import Navbar from "./components/Navbar.jsx";
+import Footer from "./components/Footer.jsx";
+import CartDrawer from "./components/CartDrawer.jsx";
 
 import HomePage from "./pages/HomePage";
 import ShopPage from "./pages/ShopPage";
