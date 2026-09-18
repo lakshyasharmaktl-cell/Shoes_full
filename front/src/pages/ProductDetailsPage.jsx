@@ -23,7 +23,7 @@ import { api } from "../api/apiClient";
 import { useCart } from "../context/CartContext";
 import { useToast } from "../context/ToastContext";
 import { useAuth } from "../context/AuthContext";
-import ProductCard from "../components/ProductCard";
+import ProductCard from "../Components/ProductCard";
 
 export default function ProductDetailsPage() {
   const { id } = useParams();
