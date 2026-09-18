@@ -1,9 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useToast } from "./ToastContext";
+import { useAuth } from "./AuthContext";
 
 const CartContext = createContext(null);
 
 export const CartProvider = ({ children }) => {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [cart, setCart] = useState(() => {
     try {
       const saved = localStorage.getItem("shoe_cart_items");
@@ -14,13 +18,20 @@ export const CartProvider = ({ children }) => {
   });
 
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const { showSuccess, showError, showInfo } = useToast();
+  const { showError, showInfo, showSuccess } = useToast();
 
   useEffect(() => {
     localStorage.setItem("shoe_cart_items", JSON.stringify(cart));
   }, [cart]);
 
   const addToCart = (product, selectedSize, quantity = 1) => {
+    // 🔒 Require sign-in before shopping
+    if (!isAuthenticated) {
+      showError("Please sign in to add items to your cart");
+      navigate("/auth");
+      return false;
+    }
+
     if (!selectedSize) {
       showError("Please select a shoe size first");
       return false;

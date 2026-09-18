@@ -11,6 +11,7 @@ import {
   FiMinus,
   FiHeart,
   FiShare2,
+  FiLogIn,
 } from "react-icons/fi";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Thumbs } from "swiper/modules";
@@ -21,6 +22,7 @@ import "swiper/css/pagination";
 import { api } from "../api/apiClient";
 import { useCart } from "../context/CartContext";
 import { useToast } from "../context/ToastContext";
+import { useAuth } from "../context/AuthContext";
 import ProductCard from "../components/ProductCard";
 
 export default function ProductDetailsPage() {
@@ -28,6 +30,7 @@ export default function ProductDetailsPage() {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const { showSuccess } = useToast();
+  const { isAuthenticated } = useAuth();
 
   const [product, setProduct] = useState(null);
   const [related, setRelated] = useState([]);
@@ -290,36 +293,58 @@ export default function ProductDetailsPage() {
 
           {/* Quantity and Add to Bag */}
           <div className="space-y-4 pt-2">
-            <div className="flex items-center gap-4">
-              {/* Quantity counter */}
-              <div className="flex items-center border border-slate-200 rounded-2xl p-1 bg-slate-50">
+            {isAuthenticated ? (
+              <div className="flex items-center gap-4">
+                {/* Quantity counter */}
+                <div className="flex items-center border border-slate-200 rounded-2xl p-1 bg-slate-50">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="p-2 text-slate-600 hover:bg-slate-200 rounded-xl transition"
+                  >
+                    <FiMinus className="w-3.5 h-3.5" />
+                  </button>
+                  <span className="w-10 text-center font-bold text-xs text-slate-900">
+                    {quantity}
+                  </span>
+                  <button
+                    onClick={() => setQuantity(Math.min(availableStock || 99, quantity + 1))}
+                    className="p-2 text-slate-600 hover:bg-slate-200 rounded-xl transition"
+                  >
+                    <FiPlus className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
+                {/* Add to Cart Button */}
                 <button
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="p-2 text-slate-600 hover:bg-slate-200 rounded-xl transition"
+                  onClick={handleAddToCart}
+                  disabled={isOutOfStock}
+                  className="flex-1 py-4 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl text-xs font-bold transition shadow-xl flex items-center justify-center gap-2 italic tracking-wider uppercase disabled:opacity-40 disabled:cursor-not-allowed group"
                 >
-                  <FiMinus className="w-3.5 h-3.5" />
-                </button>
-                <span className="w-10 text-center font-bold text-xs text-slate-900">
-                  {quantity}
-                </span>
-                <button
-                  onClick={() => setQuantity(Math.min(availableStock || 99, quantity + 1))}
-                  className="p-2 text-slate-600 hover:bg-slate-200 rounded-xl transition"
-                >
-                  <FiPlus className="w-3.5 h-3.5" />
+                  <FiShoppingBag className="w-4 h-4" />
+                  <span>{isOutOfStock ? "Sold Out in this Size" : "Add to Shopping Bag"}</span>
                 </button>
               </div>
-
-              {/* Add to Cart Button */}
-              <button
-                onClick={handleAddToCart}
-                disabled={isOutOfStock}
-                className="flex-1 py-4 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl text-xs font-bold transition shadow-xl flex items-center justify-center gap-2 italic tracking-wider uppercase disabled:opacity-40 disabled:cursor-not-allowed group"
-              >
-                <FiShoppingBag className="w-4 h-4" />
-                <span>{isOutOfStock ? "Sold Out in this Size" : "Add to Shopping Bag"}</span>
-              </button>
-            </div>
+            ) : (
+              /* Guest: Sign In Prompt */
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+                  <span className="text-2xl">🔒</span>
+                  <div>
+                    <p className="text-xs font-bold text-slate-900 italic">Sign in to start shopping</p>
+                    <p className="text-[11px] text-slate-500 italic mt-0.5">
+                      Create a free account or sign in to add items to your cart and checkout.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => navigate("/auth")}
+                  className="w-full py-4 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl text-xs font-bold transition shadow-xl flex items-center justify-center gap-2 italic tracking-wider uppercase"
+                >
+                  <FiLogIn className="w-4 h-4" />
+                  <span>Sign In to Shop</span>
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Feature Badges */}

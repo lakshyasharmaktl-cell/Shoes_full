@@ -17,13 +17,23 @@ import UserAuthPage from "./pages/UserAuthPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import { useAuth } from "./context/AuthContext";
+
+// Protect checkout & order-success from guests
+function ProtectedRoute({ children }) {
+  const { isAuthenticated, loading } = useAuth();
+  if (loading) return null;
+  if (!isAuthenticated) return <Navigate to="/auth" replace />;
+  return children;
+}
 
 export default function App() {
   return (
     <ToastProvider>
       <AuthProvider>
-        <CartProvider>
-          <Router>
+        <Router>
+          {/* CartProvider is inside Router so useNavigate works */}
+          <CartProvider>
             <div className="min-h-screen flex flex-col bg-white text-slate-900 selection:bg-slate-900 selection:text-white">
               {/* Top Navigation */}
               <Navbar />
@@ -38,9 +48,25 @@ export default function App() {
                   <Route path="/" element={<HomePage />} />
                   <Route path="/shop" element={<ShopPage />} />
                   <Route path="/product/:id" element={<ProductDetailsPage />} />
-                  <Route path="/checkout" element={<CheckoutPage />} />
-                  <Route path="/order-success/:id" element={<OrderSuccessPage />} />
                   <Route path="/auth" element={<UserAuthPage />} />
+
+                  {/* Protected Routes — require sign-in */}
+                  <Route
+                    path="/checkout"
+                    element={
+                      <ProtectedRoute>
+                        <CheckoutPage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/order-success/:id"
+                    element={
+                      <ProtectedRoute>
+                        <OrderSuccessPage />
+                      </ProtectedRoute>
+                    }
+                  />
 
                   {/* Admin Routes */}
                   <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
@@ -55,8 +81,8 @@ export default function App() {
               {/* Bottom Footer */}
               <Footer />
             </div>
-          </Router>
-        </CartProvider>
+          </CartProvider>
+        </Router>
       </AuthProvider>
     </ToastProvider>
   );

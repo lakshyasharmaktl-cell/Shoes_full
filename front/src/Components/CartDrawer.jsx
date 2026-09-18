@@ -1,19 +1,25 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FiX, FiTrash2, FiPlus, FiMinus, FiArrowRight, FiShoppingBag } from "react-icons/fi";
+import { FiX, FiTrash2, FiPlus, FiMinus, FiArrowRight, FiShoppingBag, FiLogIn } from "react-icons/fi";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 import { api } from "../api/apiClient";
 
 export default function CartDrawer() {
   const { cart, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart, subtotal, totalSavings, totalItems } =
     useCart();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   if (!isCartOpen) return null;
 
   const handleCheckoutClick = () => {
     setIsCartOpen(false);
-    navigate("/checkout");
+    if (!isAuthenticated) {
+      navigate("/auth");
+    } else {
+      navigate("/checkout");
+    }
   };
 
   return (
