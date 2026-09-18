@@ -10,7 +10,7 @@ import CartDrawer from "./Components/CartDrawer.jsx";
 
 import HomePage from "./pages/HomePage";
 import ShopPage from "./pages/ShopPage";
-import ProductDetailsPage from "./pages/ProductDetailsPage";
+import ProductDetailsPage from "./pages/ProductDetailsPage.jsx";
 import CheckoutPage from "./pages/CheckoutPage";
 import OrderSuccessPage from "./pages/OrderSuccessPage";
 import UserAuthPage from "./pages/UserAuthPage";

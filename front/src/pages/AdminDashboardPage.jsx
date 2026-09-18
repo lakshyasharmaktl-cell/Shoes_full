@@ -20,7 +20,7 @@ import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
 import { api } from "../api/apiClient";
 import AdminProductModal from "../Components/AdminProductModal";
-import ConfirmModal from "../components/ConfirmModal";
+import ConfirmModal from "../Components/ConfirmModal";
 
 export default function AdminDashboardPage() {
   const { user, isAdmin, loading: authLoading, logout } = useAuth();
